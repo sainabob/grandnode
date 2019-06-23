@@ -40,7 +40,7 @@
         <mini-profiler />
     }
 </head>
-<body>
+<body class="lang_@(this.WorkingLanguage())">
     <resources asp-type="ScriptHeader" />
     @RenderBody()
     @Html.GrandCssFiles(this.Url, ResourceLocation.Footer)

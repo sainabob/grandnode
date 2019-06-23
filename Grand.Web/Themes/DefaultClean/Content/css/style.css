@@ -92,6 +92,9 @@ body {
     overflow-x: hidden;
     font-family: 'Poppins', sans-serif;
 }
+body.lang_cn {
+	font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", 微软雅黑, "Microsoft YaHei", 华文细黑, STHeiti, sans-serif;
+}
 a {
     color: #17a2b8;
 }
@@ -2792,12 +2795,22 @@ table {
 .categoryGrid a.viewmode-icon.selected {
 	color: #26A69A;
 }
+.list-title {
+	position: absolute;
+	width: 100%;
+	top: 45%;
+}
 .list-title .card-title {
     font-weight: 300;
     font-size: 24px;
     width: 100%;
     border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+	border-bottom-right-radius: 0;
+	text-align: center;
+}
+.list-title .card-title a {
+	color: #ffffff;
+	font-weight: bold;
 }
 .categoryItems .card a,
 .categoryGrid .card a {
@@ -5683,4 +5696,7 @@ blockquote.administration-response p {
 }
 h5.administration-response-header {
 	color: #0091b5
+}
+.page-footer-inner {
+	display: none;
 }
