@@ -575,4 +575,19 @@
   <LocaleResource Name="admin.catalog.products.list.skunotfound">
     <Value>Provided SKU doesn't exist</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.Categories.Fields.DefaultSort">
+    <Value>Default sorting</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Catalog.Categories.Fields.DefaultSort.hint">
+    <Value>Allow to set default sorting for this category</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.SystemInfo.ApplicationTime">
+    <Value>Application time</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.System.SystemInfo.ApplicationTime.hint">
+    <Value>Application time based on default store time zone</Value>
+  </LocaleResource>
+  <LocaleResource Name="messages.wishlist.product(s).quantity">
+    <Value>Quantity</Value>
+  </LocaleResource>
 </Language>
