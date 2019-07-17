@@ -497,6 +497,7 @@ namespace Grand.Web.Services
                     int pictureSize = _mediaSettings.CategoryThumbPictureSize;
                     var picture = await _pictureService.GetPictureById(x.PictureId);
                     subCatModel.PictureModel = new PictureModel {
+                        Id = x.PictureId,
                         FullSizeImageUrl = await _pictureService.GetPictureUrl(picture),
                         ImageUrl = await _pictureService.GetPictureUrl(picture, pictureSize),
                         Title = string.Format(_localizationService.GetResource("Media.Category.ImageLinkTitleFormat"), subCatModel.Name),
@@ -597,6 +598,7 @@ namespace Grand.Web.Services
                     int pictureSize = _mediaSettings.CategoryThumbPictureSize;
                     var picture = await _pictureService.GetPictureById(x.PictureId);
                     catModel.PictureModel = new PictureModel {
+                        Id = x.PictureId,
                         FullSizeImageUrl = await _pictureService.GetPictureUrl(picture),
                         ImageUrl = await _pictureService.GetPictureUrl(picture, pictureSize),
                         Title = string.Format(_localizationService.GetResource("Media.Category.ImageLinkTitleFormat"), catModel.Name),
@@ -626,6 +628,7 @@ namespace Grand.Web.Services
                     int pictureSize = _mediaSettings.CategoryThumbPictureSize;
                     var picture = await _pictureService.GetPictureById(x.PictureId);
                     catModel.PictureModel = new PictureModel {
+                        Id = x.PictureId,
                         FullSizeImageUrl = await _pictureService.GetPictureUrl(picture),
                         ImageUrl = await _pictureService.GetPictureUrl(picture, pictureSize),
                         Title = string.Format(_localizationService.GetResource("Media.Category.ImageLinkTitleFormat"), catModel.Name),
@@ -670,7 +673,7 @@ namespace Grand.Web.Services
                 }
                 if (featuredProducts != null)
                 {
-                    item.FeaturedProducts = (await _productViewModelService.PrepareProductOverviewModels(featuredProducts)).ToList();
+                    item.FeaturedProducts = (await _productViewModelService.PrepareProductOverviewModels(featuredProducts, prepareSpecificationAttributes: _catalogSettings.ShowSpecAttributeOnCatalogPages)).ToList();
                 }
             }
 
@@ -774,6 +777,7 @@ namespace Grand.Web.Services
                 int pictureSize = _mediaSettings.ManufacturerThumbPictureSize;
                 var picture = await _pictureService.GetPictureById(manufacturer.PictureId);
                 modelMan.PictureModel = new PictureModel {
+                    Id = manufacturer.PictureId,
                     FullSizeImageUrl = await _pictureService.GetPictureUrl(picture),
                     ImageUrl = await _pictureService.GetPictureUrl(picture, pictureSize),
                     Title = string.Format(_localizationService.GetResource("Media.Manufacturer.ImageLinkTitleFormat"), modelMan.Name),
@@ -801,6 +805,7 @@ namespace Grand.Web.Services
                     int pictureSize = _mediaSettings.CategoryThumbPictureSize;
                     var picture = await _pictureService.GetPictureById(x.PictureId);
                     manModel.PictureModel = new PictureModel {
+                        Id = x.PictureId,
                         FullSizeImageUrl = await _pictureService.GetPictureUrl(picture),
                         ImageUrl = await _pictureService.GetPictureUrl(picture, pictureSize),
                         Title = string.Format(_localizationService.GetResource("Media.Manufacturer.ImageLinkTitleFormat"), manModel.Name),
@@ -859,6 +864,7 @@ namespace Grand.Web.Services
                     int pictureSize = _mediaSettings.CategoryThumbPictureSize;
                     var picture = await _pictureService.GetPictureById(x.PictureId);
                     manModel.PictureModel = new PictureModel {
+                        Id = x.PictureId,
                         FullSizeImageUrl = await _pictureService.GetPictureUrl(picture),
                         ImageUrl = await _pictureService.GetPictureUrl(picture, pictureSize),
                         Title = string.Format(_localizationService.GetResource("Media.Category.ImageLinkTitleFormat"), manModel.Name),
@@ -1030,6 +1036,7 @@ namespace Grand.Web.Services
             {
                 var picture = await _pictureService.GetPictureById(vendor.PictureId);
                 var pictureModel = new PictureModel {
+                    Id = vendor.PictureId,
                     FullSizeImageUrl = await _pictureService.GetPictureUrl(picture),
                     ImageUrl = await _pictureService.GetPictureUrl(picture, pictureSize),
                     Title = string.Format(_localizationService.GetResource("Media.Vendor.ImageLinkTitleFormat"), model.Name),
@@ -1093,6 +1100,7 @@ namespace Grand.Web.Services
                 {
                     var picture = await _pictureService.GetPictureById(vendor.PictureId);
                     var pictureModel = new PictureModel {
+                        Id = vendor.PictureId,
                         FullSizeImageUrl = await _pictureService.GetPictureUrl(picture),
                         ImageUrl = await _pictureService.GetPictureUrl(picture, pictureSize),
                         Title = string.Format(_localizationService.GetResource("Media.Vendor.ImageLinkTitleFormat"), vendorModel.Name),
@@ -1177,14 +1185,14 @@ namespace Grand.Web.Services
                 //get all tags
                 var allTags = (await _productTagService
                     .GetAllProductTags())
-                    .OrderByDescending(x => _productTagService.GetProductCount(x.Id, _storeContext.CurrentStore.Id))
+                    .OrderByDescending(x => x.Count)
                     .ToList();
 
                 var tags = allTags
                     .Take(_catalogSettings.NumberOfProductTags)
                     .ToList();
                 //sorting
-                tags = tags.OrderBy(x => x.GetLocalized(y => y.Name, _workContext.WorkingLanguage.Id)).ToList();
+                tags = tags.OrderBy(x => x.Name).ToList();
 
                 model.TotalTags = allTags.Count;
 
@@ -1193,7 +1201,7 @@ namespace Grand.Web.Services
                         Id = tag.Id,
                         Name = tag.GetLocalized(y => y.Name, languageId),
                         SeName = tag.SeName,
-                        ProductCount = _productTagService.GetProductCount(tag.Id, _storeContext.CurrentStore.Id)
+                        ProductCount = tag.Count
                     });
                 return model;
             });
@@ -1205,7 +1213,7 @@ namespace Grand.Web.Services
             var model = new PopularProductTagsModel();
             model.Tags = (await _productTagService
                 .GetAllProductTags())
-                .OrderBy(x => x.GetLocalized(y => y.Name, _workContext.WorkingLanguage.Id))
+                .OrderBy(x => x.Name)
                 .Select(x =>
                 {
                     var ptModel = new ProductTagModel {

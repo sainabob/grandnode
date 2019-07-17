@@ -4111,6 +4111,14 @@ namespace Grand.Services.Installation
             };
             await _customerRoleRepository.InsertAsync(crVendors);
 
+            var crStaff = new CustomerRole {
+                Name = "Staff",
+                Active = true,
+                IsSystemRole = true,
+                SystemName = SystemCustomerRoleNames.Staff,
+            };
+            await _customerRoleRepository.InsertAsync(crStaff);
+
             //admin user
             var adminUser = new Customer
             {
@@ -4702,7 +4710,7 @@ namespace Grand.Services.Installation
                                            SystemName = "AboutUs",
                                            IncludeInSitemap = false,
                                            IsPasswordProtected = false,
-                                           IncludeInFooterColumn1 = true,
+                                           IncludeInFooterRow1 = true,
                                            DisplayOrder = 20,
                                            Title = "About us",
                                            Body = "<p>Put your &quot;About Us&quot; information here. You can edit this in the admin site.</p>",
@@ -4723,7 +4731,7 @@ namespace Grand.Services.Installation
                                            SystemName = "ConditionsOfUse",
                                            IncludeInSitemap = false,
                                            IsPasswordProtected = false,
-                                           IncludeInFooterColumn1 = true,
+                                           IncludeInFooterRow1 = true,
                                            DisplayOrder = 15,
                                            Title = "Conditions of Use",
                                            Body = "<p>Put your conditions of use information here. You can edit this in the admin site.</p>",
@@ -4774,7 +4782,7 @@ namespace Grand.Services.Installation
                                            SystemName = "PrivacyInfo",
                                            IncludeInSitemap = false,
                                            IsPasswordProtected = false,
-                                           IncludeInFooterColumn1 = true,
+                                           IncludeInFooterRow1 = true,
                                            DisplayOrder = 10,
                                            Title = "Privacy notice",
                                            Body = "<p>Put your privacy policy information here. You can edit this in the admin site.</p>",
@@ -4795,7 +4803,7 @@ namespace Grand.Services.Installation
                                            SystemName = "ShippingInfo",
                                            IncludeInSitemap = false,
                                            IsPasswordProtected = false,
-                                           IncludeInFooterColumn1 = true,
+                                           IncludeInFooterRow1 = true,
                                            DisplayOrder = 5,
                                            Title = "Shipping & returns",
                                            Body = "<p>Put your shipping &amp; returns information here. You can edit this in the admin site.</p>",
@@ -5133,11 +5141,11 @@ namespace Grand.Services.Installation
                 HideNotesTab = true,
                 DownloadableProductsValidateUser = false,
                 CustomerNameFormat = CustomerNameFormat.ShowFirstName,
-                GenderEnabled = true,
-                DateOfBirthEnabled = true,
+                GenderEnabled = false,
+                DateOfBirthEnabled = false,
                 DateOfBirthRequired = false,
                 DateOfBirthMinimumAge = 0,
-                CompanyEnabled = true,
+                CompanyEnabled = false,
                 StreetAddressEnabled = false,
                 StreetAddress2Enabled = false,
                 ZipPostalCodeEnabled = false,
@@ -5177,7 +5185,7 @@ namespace Grand.Services.Installation
                 StateProvinceEnabled = true,
                 PhoneEnabled = true,
                 PhoneRequired = true,
-                FaxEnabled = true,
+                FaxEnabled = false,
             });
 
             await _settingService.SaveSetting(new StoreInformationSettings

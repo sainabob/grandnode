@@ -1085,7 +1085,7 @@ a:hover, a:focus {
     display: block;
     height: 55px;
     margin: 0;
-    padding-left: 10px
+    padding-left: 26px;
 }
 
 .site_title:hover, .site_title:focus {
@@ -6202,4 +6202,32 @@ table.tableFixHead {
 
 .tableFixHead th, .tableFixHead td {
     padding: 8px 16px;
+}
+
+/*Google statistics*/
+.googleStatistics {
+    list-style-type: none;
+}
+
+.list-icon-container {
+    display: inline;
+}
+
+    .list-icon-container a .icon-check {
+        font-size: 16px;
+        margin-right: 5px;
+    }
+
+.list-datetime {
+    display: inline;
+    font-size: 24px;
+}
+
+.list-item-content {
+    padding: 0px 15px 0 3px;
+    display: inline-block;
+}
+
+.list-toggle .uppercase {
+    font-size: 18px;
 }

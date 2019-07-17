@@ -173,6 +173,7 @@ namespace Grand.Web.Services
                     var sciPicture = await product.GetProductPicture(attributesXml, _productService, _pictureService, _productAttributeParser);
                     return new PictureModel
                     {
+                        Id = sciPicture?.Id,
                         ImageUrl = await _pictureService.GetPictureUrl(sciPicture, pictureSize, showDefaultPicture),
                         Title = string.Format(_localizationService.GetResource("Media.Product.ImageLinkTitleFormat"), productName),
                         AlternateText = string.Format(_localizationService.GetResource("Media.Product.ImageAlternateTextFormat"), productName),
@@ -722,7 +723,7 @@ namespace Grand.Web.Services
                     var subtotal = await _priceCalculationService.GetSubTotal(sci, true);
                     decimal shoppingCartItemDiscountBase = subtotal.discountAmount;
                     List<AppliedDiscount> scDiscounts = subtotal.appliedDiscounts;
-                    var productprices = await _taxService.GetProductPrice(product, subtotal.discountAmount);
+                    var productprices = await _taxService.GetProductPrice(product, subtotal.subTotal);
                     decimal taxRate = productprices.taxRate;
                     decimal shoppingCartItemSubTotalWithDiscountBase = productprices.productprice;
 
