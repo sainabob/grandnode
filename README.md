@@ -1,4 +1,4 @@
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HFRGJMMY9KF7C)   [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/grandnode/Lobby)   [![Build status](https://ci.appveyor.com/api/projects/status/ox0qebg3wv3dp30e/branch/develop?svg=true)](https://ci.appveyor.com/project/KrzysztofPajak/grandnode/branch/develop)   [![Build Status](https://travis-ci.org/grandnode/grandnode.svg?branch=develop)](https://travis-ci.org/grandnode/grandnode)   [![Codacy Badge](https://api.codacy.com/project/badge/Grade/acbd143050984c1983d7cb0bd10b3472)](https://www.codacy.com/app/grandnode/grandnode?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=grandnode/grandnode&amp;utm_campaign=Badge_Grade)   ![Github All Releases](https://img.shields.io/github/downloads/grandnode/grandnode/total.svg) [![Demo](https://img.shields.io/badge/DEMO-HERE-green.svg)](http://demo.grandnode.com/)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HFRGJMMY9KF7C)   [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/grandnode/Lobby)   [![Build status](https://ci.appveyor.com/api/projects/status/ox0qebg3wv3dp30e/branch/develop?svg=true)](https://ci.appveyor.com/project/KrzysztofPajak/grandnode/branch/develop)   [![Build Status](https://travis-ci.org/grandnode/grandnode.svg?branch=develop)](https://travis-ci.org/grandnode/grandnode)   [![Codacy Badge](https://api.codacy.com/project/badge/Grade/acbd143050984c1983d7cb0bd10b3472)](https://www.codacy.com/app/grandnode/grandnode?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=grandnode/grandnode&amp;utm_campaign=Badge_Grade)   ![Github All Releases](https://img.shields.io/github/downloads/grandnode/grandnode/total.svg) [![Demo](https://img.shields.io/badge/DEMO-HERE-green.svg)](https://demo.grandnode.com/)
 
 Thank you for choosing GrandNode! It's an open source, free, cross-platform e-commerce software based on ASP.NET Core 2.2 and MongoDB - NoSQL database. You can run it on Linux, Windows and MacOS easily. GrandNode also supports Docker, so you are able to install it just in a seconds with Docker.
 
@@ -20,24 +20,24 @@ Please note that if you use grandnode/develop, Docker will pull the newest image
 
 GrandNode Site: [https://grandnode.com](https://grandnode.com)
 
-GrandNode demo store: [http://www.demo.grandnode.com/](http://www.demo.grandnode.com/)
+GrandNode demo store: [https://www.demo.grandnode.com/](https://www.demo.grandnode.com/)
 
-Complete feature list: [http://www.grandnode.com/features](http://www.grandnode.com/features)
+Complete feature list: [https://www.grandnode.com/features](https://www.grandnode.com/features)
 
-System Requirements: [http://grandnode.com/system-requirements](http://grandnode.com/system-requirements)
+System Requirements: [https://grandnode.com/system-requirements](https://grandnode.com/system-requirements)
 
 Documentation: [http://www.docs.grandnode.com](http://www.docs.grandnode.com)
 
-Forums: [http://www.grandnode.com/boards/](http://www.grandnode.com/boards/)
+Forums: [https://www.grandnode.com/boards/](https://www.grandnode.com/boards/)
 
 ## Development status ## 
 
-The latest stable version is 4.40
-Active development version: 4.50 (branch [develop](https://github.com/grandnode/grandnode/tree/develop))
+The latest stable version is 4.50
+Active development version: 4.60 (branch [develop](https://github.com/grandnode/grandnode/tree/develop))
 
-[Roadmap for 4.50](https://github.com/grandnode/grandnode/projects/3)
+[Roadmap for 4.60](https://github.com/grandnode/grandnode/projects/4)
 
-[Tickets linked to 4.50](https://github.com/grandnode/grandnode/issues)
+[Tickets linked to 4.60](https://github.com/grandnode/grandnode/issues)
 
 ## How to contribute code ##
 
@@ -69,14 +69,14 @@ And that's all, you are GrandNode official contributor!
 ## Store demo: ##
 
 ##### Frontend:
-[http://demo.grandnode.com/](http://demo.grandnode.com/)
+[https://demo.grandnode.com/](https://demo.grandnode.com/)
 
-[![ScreenShot](http://grandnode.com/content/images/uploaded/demograndnodefront.gif)](http://demo.grandnode.com/)
+[![ScreenShot](http://grandnode.com/content/images/uploaded/grandnode_homepage.JPG)](https://demo.grandnode.com/)
 
 ##### Backend:
-[http://demo.grandnode.com/login?ReturnUrl=%2fadmin](http://demo.grandnode.com/login?ReturnUrl=%2fadmin)
+[https://demo.grandnode.com/admin](https://demo.grandnode.com/admin)
 
-[![ScreenShot](https://grandnode.com/content/images/uploaded/adminpanel.gif)](http://demo.grandnode.com/login?ReturnUrl=%2fadmin)
+[![ScreenShot](https://grandnode.com/content/images/uploaded/grandnode_backend.JPG)](https://demo.grandnode.com/admin)
 
 Demo is restoring every hour to the original state.
 
@@ -86,7 +86,7 @@ Admin password: 123456
 
 ## License ##
 
-GrandNode open source edition is licensed under GrandNode Public License Version 3.0. It's available [here](https://github.com/grandnode/grandnode/blob/develop/LICENSE.md).
+GrandNode open source edition is licensed under GrandNode Public License Version 3.0 (GPL v3). It's available [here](https://github.com/grandnode/grandnode/blob/develop/LICENSE.md).
 
 ## Additional tools ##
 Cross-browser support is tested by ![Browserstack Logo](https://grandnode.com/content/images/uploaded/browserstack-logo-small.png)  
