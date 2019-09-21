@@ -375,6 +375,7 @@ namespace Grand.Services.Orders
                 StoreId = processPaymentRequest.StoreId,
                 OrderGuid = processPaymentRequest.OrderGuid,
                 CustomerId = details.Customer.Id,
+                OwnerId = string.IsNullOrEmpty(details.Customer.OwnerId) ? details.Customer.Id : details.Customer.OwnerId,
                 CustomerLanguageId = details.CustomerLanguage.Id,
                 CustomerTaxDisplayType = details.CustomerTaxDisplayType,
                 CustomerIp = _webHelper.GetCurrentIpAddress(),
@@ -750,9 +751,9 @@ namespace Grand.Services.Orders
                     attributeDescription = _localizationService.GetResource("ShoppingCart.auctionwonon") + " " + product.AvailableEndDateTimeUtc;
 
                 var itemWeight = await _shippingService.GetShoppingCartItemWeight(sc);
-
-                var warehouseId = _storeContext.CurrentStore.DefaultWarehouseId;
-                if (!product.UseMultipleWarehouses)
+                
+                var warehouseId = !string.IsNullOrEmpty(sc.WarehouseId) ? sc.WarehouseId : _storeContext.CurrentStore.DefaultWarehouseId;
+                if (!product.UseMultipleWarehouses && string.IsNullOrEmpty(warehouseId))
                 {
                     if (!string.IsNullOrEmpty(product.WarehouseId))
                     {
@@ -1395,6 +1396,9 @@ namespace Grand.Services.Orders
             //raise event
             await _mediator.Publish(new OrderPaidEvent(order));
 
+            //customer action event service - paid order
+            await _customerActionEventService.AddOrder(order, CustomerActionTypeEnum.PaidOrder);
+
             //order paid email notification
             if (order.OrderTotal != decimal.Zero)
             {
@@ -1420,75 +1424,6 @@ namespace Grand.Services.Orders
                     await _workflowMessageService.SendOrderPaidVendorNotification(order, vendor, _localizationSettings.DefaultAdminLanguageId);
                 }
                 //TODO add "order paid email sent" order note
-            }
-
-            //customer roles with "purchased with product" specified
-            await ProcessCustomerRolesWithPurchasedProductSpecified(order, true);
-        }
-
-        /// <summary>
-        /// Process customer roles with "Purchased with Product" property configured
-        /// </summary>
-        /// <param name="order">Order</param>
-        /// <param name="add">A value indicating whether to add configured customer role; true - add, false - remove</param>
-        protected virtual async Task ProcessCustomerRolesWithPurchasedProductSpecified(Order order, bool add)
-        {
-            if (order == null)
-                throw new ArgumentNullException("order");
-
-            //purchased product identifiers
-            var purchasedProductIds = new List<string>();
-            foreach (var orderItem in order.OrderItems)
-            {
-                //standard items
-                purchasedProductIds.Add(orderItem.ProductId);
-
-                //bundled (associated) products
-                var product = await _productService.GetProductById(orderItem.ProductId);
-                var attributeValues = _productAttributeParser.ParseProductAttributeValues(product, orderItem.AttributesXml);
-                foreach (var attributeValue in attributeValues)
-                {
-                    if (attributeValue.AttributeValueType == AttributeValueType.AssociatedToProduct)
-                    {
-                        purchasedProductIds.Add(attributeValue.AssociatedProductId);
-                    }
-                }
-            }
-
-            //list of customer roles
-            var customerRoles = (await _customerService
-                .GetAllCustomerRoles(true))
-                .Where(cr => purchasedProductIds.Contains(cr.PurchasedWithProductId))
-                .ToList();
-
-            if (customerRoles.Any())
-            {
-                var customer = await _customerService.GetCustomerById(order.CustomerId);
-                foreach (var customerRole in customerRoles)
-                {
-                    if (customer.CustomerRoles.Count(cr => cr.Id == customerRole.Id) == 0)
-                    {
-                        //not in the list yet
-                        if (add)
-                        {
-                            //add
-                            customerRole.CustomerId = customer.Id;
-                            customer.CustomerRoles.Add(customerRole);
-                            await _customerService.InsertCustomerRoleInCustomer(customerRole);
-                        }
-                    }
-                    else
-                    {
-                        //already in the list
-                        if (!add)
-                        {
-                            //remove
-                            customer.CustomerRoles.Remove(customerRole);
-                            customerRole.CustomerId = customer.Id;
-                            await _customerService.InsertCustomerRoleInCustomer(customerRole);
-                        }
-                    }
-                }
             }
         }
 
@@ -1741,7 +1676,8 @@ namespace Grand.Services.Orders
                     //raise event       
                     await _mediator.Publish(new OrderPlacedEvent(order));
 
-                    await _customerActionEventService.AddOrder(order, _workContext.CurrentCustomer);
+                    //cutomer action - add order
+                    await _customerActionEventService.AddOrder(order, CustomerActionTypeEnum.AddOrder);
 
                     if (order.PaymentStatus == PaymentStatus.Paid)
                     {
@@ -3056,7 +2992,7 @@ namespace Grand.Services.Orders
                     if (product != null && product.ProductType == ProductType.SimpleProduct)
                     {
                         await _shoppingCartService.AddToCart(customer, orderItem.ProductId,
-                            ShoppingCartType.ShoppingCart, order.StoreId,
+                            ShoppingCartType.ShoppingCart, order.StoreId, orderItem.WarehouseId,
                             orderItem.AttributesXml, orderItem.UnitPriceExclTax,
                             orderItem.RentalStartDateUtc, orderItem.RentalEndDateUtc,
                             orderItem.Quantity, false);

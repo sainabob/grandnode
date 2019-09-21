@@ -232,7 +232,7 @@ namespace Grand.Web.Controllers
                         if (int.TryParse(form[formKey], out int newQuantity))
                         {
                             var currSciWarnings = await _shoppingCartService.UpdateShoppingCartItem(_workContext.CurrentCustomer,
-                                sci.Id, sci.AttributesXml, sci.CustomerEnteredPrice,
+                                sci.Id, sci.WarehouseId, sci.AttributesXml, sci.CustomerEnteredPrice,
                                 sci.RentalStartDateUtc, sci.RentalEndDateUtc,
                                 newQuantity, true, sci.ReservationId, sci.Id);
                             innerWarnings.Add(sci.Id, currSciWarnings);
@@ -370,7 +370,7 @@ namespace Grand.Web.Controllers
             var cart = _shoppingCartService.GetShoppingCart(_storeContext.CurrentStore.Id, ShoppingCartType.ShoppingCart, ShoppingCartType.Auctions);
 
             var model = new ShoppingCartModel();
-            if (!String.IsNullOrWhiteSpace(discountcouponcode))
+            if (!string.IsNullOrWhiteSpace(discountcouponcode))
             {
                 discountcouponcode = discountcouponcode.ToUpper();
                 //we find even hidden records here. this way we can display a user-friendly message if it's expired
@@ -435,7 +435,7 @@ namespace Grand.Web.Controllers
             }
             else
             {
-                model.DiscountBox.Message = _localizationService.GetResource("ShoppingCart.DiscountCouponCode.WrongDiscount");
+                model.DiscountBox.Message = _localizationService.GetResource("ShoppingCart.DiscountCouponCode.Required");
                 model.DiscountBox.IsApplied = false;
             }
 
@@ -478,7 +478,7 @@ namespace Grand.Web.Controllers
                 }
                 else
                 {
-                    model.GiftCardBox.Message = _localizationService.GetResource("ShoppingCart.GiftCardCouponCode.WrongGiftCard");
+                    model.GiftCardBox.Message = _localizationService.GetResource("ShoppingCart.GiftCardCouponCode.Required");
                     model.GiftCardBox.IsApplied = false;
                 }
             }
@@ -609,7 +609,7 @@ namespace Grand.Web.Controllers
                             if (int.TryParse(form[formKey], out int newQuantity))
                             {
                                 var currSciWarnings = await _shoppingCartService.UpdateShoppingCartItem(_workContext.CurrentCustomer,
-                                    sci.Id, sci.AttributesXml, sci.CustomerEnteredPrice,
+                                    sci.Id, sci.WarehouseId, sci.AttributesXml, sci.CustomerEnteredPrice,
                                     sci.RentalStartDateUtc, sci.RentalEndDateUtc,
                                     newQuantity, true);
                                 innerWarnings.Add(sci.Id, currSciWarnings);
@@ -671,7 +671,7 @@ namespace Grand.Web.Controllers
                 {
                     var warnings = await _shoppingCartService.AddToCart(_workContext.CurrentCustomer,
                         sci.ProductId, ShoppingCartType.ShoppingCart,
-                        _storeContext.CurrentStore.Id,
+                        _storeContext.CurrentStore.Id, sci.WarehouseId,
                         sci.AttributesXml, sci.CustomerEnteredPrice,
                         sci.RentalStartDateUtc, sci.RentalEndDateUtc, sci.Quantity, true);
                     if (!warnings.Any())

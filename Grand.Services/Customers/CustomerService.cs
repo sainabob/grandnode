@@ -815,6 +815,8 @@ namespace Grand.Services.Customers
 
             filter = filter & builder.Eq(x => x.HasContributions, false);
 
+            filter = filter & builder.Eq(x => x.IsSystemAccount, false);
+
             var customers = await _customerRepository.Collection.DeleteManyAsync(filter);
 
             return (int)customers.DeletedCount;
@@ -882,17 +884,14 @@ namespace Grand.Services.Customers
         /// </summary>
         /// <param name="showHidden">A value indicating whether to show hidden records</param>
         /// <returns>Customer roles</returns>
-        public virtual async Task<IList<CustomerRole>> GetAllCustomerRoles(bool showHidden = false)
+        public virtual async Task<IPagedList<CustomerRole>> GetAllCustomerRoles(int pageIndex = 0, 
+            int pageSize = int.MaxValue, bool showHidden = false)
         {
-            string key = string.Format(CUSTOMERROLES_ALL_KEY, showHidden);
-            return await _cacheManager.GetAsync(key, () =>
-            {
-                var query = from cr in _customerRoleRepository.Table
-                            where (showHidden || cr.Active)
-                            orderby cr.Name
-                            select cr;
-                return query.ToListAsync();
-            });
+            var query = from cr in _customerRoleRepository.Table
+                        where (showHidden || cr.Active)
+                        orderby cr.Name
+                        select cr;
+            return await PagedList<CustomerRole>.Create(query, pageIndex, pageSize);
         }
 
         /// <summary>
@@ -1235,6 +1234,7 @@ namespace Grand.Services.Customers
             var filter = builder.Eq(x => x.Id, customerId);
             filter = filter & builder.ElemMatch(x => x.ShoppingCartItems, y => y.Id == shoppingCartItem.Id);
             var update = Builders<Customer>.Update
+                .Set(x => x.ShoppingCartItems.ElementAt(-1).WarehouseId, shoppingCartItem.WarehouseId)
                 .Set(x => x.ShoppingCartItems.ElementAt(-1).Quantity, shoppingCartItem.Quantity)
                 .Set(x => x.ShoppingCartItems.ElementAt(-1).AdditionalShippingChargeProduct, shoppingCartItem.AdditionalShippingChargeProduct)
                 .Set(x => x.ShoppingCartItems.ElementAt(-1).IsFreeShipping, shoppingCartItem.IsFreeShipping)

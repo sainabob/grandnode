@@ -170,11 +170,14 @@ input {
     border-color: #0093B5;
     box-shadow: 0 2px 6px 0 rgba(0,0,0,0.12);
 }
+.btn-group-vertical > .btn, .btn-group > .btn {
+    flex: 0 1 auto;
+}
 .input-group-btn .btn,
 .btn-group .btn {
-	display: flex;
-	height: 38px;
-	align-items: center;
+    display: flex;
+    height: 38px;
+    align-items: center;
 }
 .currency-selector .btn-group .btn,
 .tax-type-button .btn,
@@ -283,8 +286,13 @@ input {
     background-color: #637DB1;
     border-color: #637DB1;
 }
-.btn-info {
+.btn-info,
+.btn-outline-info:hover {
     background-color: #0091b5;
+    border-color: #0091b5;
+}
+.btn-outline-info {
+    color: #0091b5;
     border-color: #0091b5;
 }
 .btn-secondary {
@@ -506,7 +514,7 @@ body:not(.is-ready) .search-box-button {
 }
 #small-searchterms {
     margin: 0 5px 0 0;
-    font-size: 14px;
+    font-size: 16px;
 	border-bottom-left-radius: 4px;
 	border-top-left-radius: 4px;
 }
@@ -2421,10 +2429,6 @@ ul.opc .order-summary-content h5 {
     width: 100%;
     padding-top: 100%;
 }
-.product-details-page .overview-buttons .add-to-cart-button {
-	border-top-left-radius: .25rem;
-	border-bottom-left-radius: .25rem;
-}
 .product-details-page .sp-wrap {
 	max-width: 100%;
 	border: 0;
@@ -2605,41 +2609,56 @@ ul.opc .order-summary-content h5 {
 		max-width: 1140px;
 	}
 }
+
 /*rating*/
 
-.rating {
-    position: relative;
+.ratings {
     display: flex;
-    align-items: center;
-    width: 83px;
-    height: 19px;
-    line-height: 1;
-    font-size: 20px;
-    margin: 5px 0;
-}
-.rating .rating-ghost {
-    z-index: 1;
-    position: absolute;
-    top: 0;
-    left: 0;
+    justify-content: flex-start;
     width: 100%;
-    height: 19px;
-    white-space: nowrap;
-    color: #f0ad4e;
+    height: 22px;
+    font-size: 22px;
+    backface-visibility: hidden;
+    text-align: center;
 }
-.rating .rating-real {
-    z-index: 2;
-    position: absolute;
-    top: 0;
-    left: 0;
-    color: #f0ad4e;
+.rating-box {
+    display: flex;
+    justify-content: flex-start;
+    position: relative;
+    height: 22px;
+    font-size: 0;
+    line-height: 0;
+    text-indent: -999em;
     overflow: hidden;
-    white-space: nowrap;
 }
-.vendor-review-list .rating,
-.product-review-list .rating {
-    top: 25px;
-    left: calc(100% - 83px);
+.rating-box::before {
+    content: "\2605\2605\2605\2605\2605";
+    height: 22px;
+    color: #c3c5c9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    font-size: 22px;
+}
+.rating-box .rating {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 22px;
+    overflow: hidden;
+}
+.rating-box .rating:before {
+    content: "\2605\2605\2605\2605\2605";
+    height: 22px;
+    color: #ffc107;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    font-size: 22px;
+    position: absolute;
+    left: 0;
 }
 .rating-options {
 	padding-top: 7px;
@@ -3518,7 +3537,6 @@ input[type='checkbox'].checkbox-u:checked + label:after {
     position: absolute;
     width: 100%;
     height: 100%;
-    min-width: 300px;
     font-size: 14px;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -3570,6 +3588,7 @@ input[type='checkbox'].checkbox-u:checked + label:after {
     font-weight: 300;
     width: 18px;
     height: 18px;
+    line-height: 18px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -3605,6 +3624,8 @@ span.product-quantity {
 	display: inline;
 	position: relative;
 	margin-right: 5px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
 }
 .generalAdToCart select {
     width: auto;
@@ -4461,6 +4482,9 @@ footer .socicon-pinterest:hover {
 	}
 }
 @media (max-width: 991px) {
+    .header-links .dropdowns-container {
+        display: none;
+    }
     .mobile-desc {
         justify-content: center;
         font-size: 9px;
@@ -5356,11 +5380,6 @@ footer .socicon-pinterest:hover {
 	}
 }
 @media (max-width: 575px) {
-    .vendor-review-list .rating,
-    .product-review-list .rating {
-        top: 0;
-        left: 0;
-    }
     .prod-list .card-body {
         max-width: 185px;
     }
@@ -5379,11 +5398,6 @@ footer .socicon-pinterest:hover {
     }
     .product-details-page .product-tabs .nav-link {
         padding: 11px;
-    }
-    .card.gen .card-body-content .card-title {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
     }
     .card.gen .card-body-content .card-title a {
         font-size: 14px;
